@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "token.h"
+#include "parser.h"
 
 #define BUFFER_SIZE 8
 void usage(char *exec) {
@@ -80,9 +81,20 @@ int main (int argc, char **argv) {
                tokens->tokData[i].line);
     }
 
+    Parser* parser = createParser(tokens);
+    NodeExit node = parse(parser);
+
+    if (node.expr != NULL) {
+        printf("Parsed return value: %s\n", node.expr->int_lit.lexeme);
+    }
+    else {
+        printf("Failed to parse return expression.\n");
+    }
+
     freeTokenArray(tokens);
     free(tokens);
     freeTokenizer(tokenizer);
+    freeParser(parser);
 
     return 0;
 }

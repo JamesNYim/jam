@@ -80,8 +80,8 @@ void addToken(TokenArray* tkArray, TokenType type, const char* lexeme, int line)
 }
 
 // Looking ahead to get a char from src string
-char peek(Tokenizer* tokenizer, int ahead) {
-    int aheadIndex = tokenizer->index + ahead;
+char peek(Tokenizer* tokenizer, int offset) {
+    int aheadIndex = tokenizer->index + offset;
 
     // If we attempt to access out of bounds
     if (aheadIndex >= strlen(tokenizer->src)) {
@@ -165,7 +165,7 @@ TokenArray* tokenize(Tokenizer* tokenizer) {
         }
 
         // If we have a new line
-        else if (peek(tokenizer, 1) == '\n') {
+        else if (peek(tokenizer, 0) == '\n') {
             consume(tokenizer);
             line++;
         }
